@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BellaSer - Estética & Spa</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* Usamos las fuentes importadas y definimos estilos base */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #111827; /* Fondo oscuro para todo */
+        }
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+        /* Estilo para los acordeones de servicios */
+        details > summary {
+            list-style: none; /* Ocultar el marcador por defecto */
+            cursor: pointer;
+        }
+        details > summary::-webkit-details-marker {
+            display: none; /* Ocultar el marcador en Chrome/Safari */
+        }
+        /* Animación suave para la apertura del acordeón */
+        details[open] > div {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="text-gray-200">
+
+    <div class="fixed top-0 left-0 w-full h-full z-0 overflow-hidden">
+        <video autoplay loop muted playsinline class="w-full h-full object-cover opacity-30">
+            <source src="https://videos.pexels.com/video-files/3780085/3780085-hd_1920_1080_25fps.mp4" type="video/mp4">
+            Tu navegador no soporta videos HTML5.
+        </video>
+    </div>
+
+    <div class="relative z-10">
+
+        <section id="home-page" class="min-h-screen flex flex-col items-center justify-center text-center p-4">
+            <div class="bg-black/30 backdrop-blur-sm p-8 md:p-12 rounded-xl">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold text-white shadow-lg">Nombre del Spa</h1>
+                <p class="text-lg md:text-xl lg:text-2xl mt-4 text-gray-300">Refugio para tu cuerpo y alma.</p>
+                <button id="ver-servicios-btn" class="mt-8 px-8 py-3 bg-white/90 text-gray-900 font-semibold rounded-lg shadow-md hover:bg-white transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-pink-300">
+                    Ver Servicios
+                </button>
+            </div>
+        </section>
+
+        <section id="services-page" class="hidden min-h-screen p-4 md:p-8">
+            <div class="max-w-4xl mx-auto">
+                <button id="back-to-home-btn" class="mb-8 text-white hover:text-gray-300 transition-colors">&larr; Volver al Inicio</button>
+                <h2 class="text-4xl md:text-5xl font-bold text-center mb-10 text-white">Nuestros Servicios</h2>
+
+                <div id="services-list" class="space-y-4">
+                </div>
+            </div>
+        </section>
+
+        <section id="booking-page" class="hidden min-h-screen flex items-center justify-center p-4">
+            <div class="max-w-lg w-full mx-auto bg-grey-800/50 backdrop-blur-md rounded-xl p-8 shadow-2xl">
+                <button id="back-to-services-btn" class="mb-6 text-white hover:text-gray-300 transition-colors">&larr; Elegir otro servicio</button>
+                <h2 class="text-3xl font-bold text-center mb-6 text-white">Confirmar Reserva</h2>
+
+                <form id="booking-form">
+                    <input type="hidden" id="form-service-name" name="servicio">
+                    <input type="hidden" id="form-service-price" name="precio">
+
+                    <div class="mb-6 bg-gray-900/50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-lg">Servicio Seleccionado:</h3>
+                        <p id="selected-service" class="text-xl"></p>
+                        <p id="selected-price" class="text-lg font-light"></p>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="nombre" class="block mb-2 text-sm font-medium">Nombre completo</label>
+                        <input type="text" id="nombre" name="nombre" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Ej: Ana Pérez" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="email" class="block mb-2 text-sm font-medium">Tu Email</label>
+                        <input type="email" id="email" name="email" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="ana.perez@email.com" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="telefono" class="block mb-2 text-sm font-medium">Celular (con código de país y de área, ej: 5491112345678)</label>
+                        <input type="tel" id="telefono" name="telefono" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Ej: 5491112345678" required>
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="sucursal" class="block mb-2 text-sm font-medium">Elegí una Sucursal</label>
+                        <select id="sucursal" name="sucursal" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-600 focus:border-blue-500 block w-full p-2.5" required>
+                            <option value="" disabled selected>Selecciona una opción</option>
+                            <option value="Centro">Sucursal Centro</option>
+                            <option value="Norte">Sucursal Norte</option>
+                            <option value="Sur">Sucursal Sur</option>
+                            <option value="Oeste">Sucursal Oeste</option>
+                        </select>
+                    </div>
+                    
+                    <div id="contenedor-calendario" class="mb-6 hidden">
+                        <h4 class="block mb-2 text-sm font-medium text-white">Elige tu horario disponible:</h4>
+                        <div id="iframe-container">
+                        </div>
+                    </div>
+
+                    <button id="boton-he-elegido" type="button" class="w-full text-white bg-gray-700 hover:bg-gray-500 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-colors hidden mb-4">
+                        He elegido mi horario
+                    </button>
+
+                    <button id="boton-enviar" type="submit" class="w-full text-white bg-pink-300/70 hover:bg-pink-300 focus:ring-4 focus:outline-none focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-colors" disabled>
+                        Enviar Reserva por WhatsApp
+                    </button>
+                </form>
+            </div>
+        </section>
+
+    </div>
+
+<script>
+    // --- DATOS DE EJEMPLO ---
+    const servicesData = [
+        {
+            category: "Tratamientos Faciales",
+            services: [
+                { name: "Limpieza Facial Profunda", price: "$850" },
+                { name: "Hidratación con Ácido Hialurónico", price: "$1200" },
+                { name: "Peeling Químico Suave", price: "$950" },
+                { name: "Microdermoabrasión", price: "$1100" },
+                { name: "Terapia de Luz LED", price: "$750" }
+            ]
+        },
+        {
+            category: "Masajes Relajantes",
+            services: [
+                { name: "Masaje Descontracturante", price: "$1300" },
+                { name: "Masaje con Piedras Calientes", price: "$1500" },
+                { name: "Reflexología Podal", price: "$900" },
+                { name: "Masaje Sueco", price: "$1200" },
+                { name: "Drenaje Linfático Manual", price: "$1400" }
+            ]
+        },
+        {
+            category: "Manicura y Pedicura",
+            services: [
+                { name: "Manicura Clásica", price: "$500" },
+                { name: "Esmaltado Semipermanente", price: "$700" },
+                { name: "Pedicura Spa Completa", price: "$900" },
+                { name: "Uñas Esculpidas", price: "$1800" },
+                { name: "Tratamiento de Parafina", price: "$600" }
+            ]
+        },
+        {
+            category: "Depilación",
+            services: [
+                { name: "Cera Completa", price: "$1500" },
+                { name: "Media Pierna", price: "$700" },
+                { name: "Axilas", price: "$400" },
+                { name: "Bozo", price: "$250" },
+                { name: "Depilación Láser (Consulta)", price: "S/C" }
+            ]
+        },
+         {
+            category: "Peluquería",
+            services: [
+                { name: "Corte y Secado", price: "$1000" },
+                { name: "Coloración", price: "$2500" },
+                { name: "Balayage", price: "$4000" },
+                { name: "Tratamiento de Keratina", price: "$3500" },
+                { name: "Peinado de Fiesta", price: "$1500" }
+            ]
+        },
+        {
+            category: "Tratamientos Corporales",
+            services: [
+                { name: "Exfoliación Corporal", price: "$1100" },
+                { name: "Envoltura de Algas", price: "$1600" },
+                { name: "Radiofrecuencia", price: "$1800" },
+                { name: "Ultracavitación", price: "$1800" },
+                { name: "Botas de Presoterapia", price: "$900" }
+            ]
+        },
+         {
+            category: "Maquillaje",
+            services: [
+                { name: "Maquillaje Social de Día", price: "$1200" },
+                { name: "Maquillaje Social de Noche", price: "$1800" },
+                { name: "Maquillaje para Novias (con prueba)", price: "$5000" },
+                { name: "Clase de Automaquillaje", price: "$2500" },
+                { name: "Perfilado de Cejas", price: "$600" }
+            ]
+        }
+    ];
+
+    // --- LÓGICA DE LA APLICACIÓN ---
+    document.addEventListener('DOMContentLoaded', () => {
+        // ================================================================= //
+        // ====== NUEVA CONFIGURACIÓN PARA NÚMEROS DE WHATSAPP POR SUCURSAL ===== //
+        // ================================================================= //
+        // **IMPORTANTE**: Reemplaza estos números con los números de WhatsApp reales de cada sucursal, incluyendo el código de país.
+        const whatsappNumbers = {
+            'Centro': '5491112345678', // Ejemplo: +54 9 11 1234-5678 (Argentina, CABA)
+            'Norte': '5491122514305',  // Ejemplo tlf Fran
+            'Sur': '5492994018011',    // Ejemplo tlf Andy Neuquén
+            'Oeste': '5491155667788'   // Ejemplo
+        };
+
+        // Referencias a los elementos del DOM
+        const homePage = document.getElementById('home-page');
+        const servicesPage = document.getElementById('services-page');
+        const bookingPage = document.getElementById('booking-page');
+
+        const verServiciosBtn = document.getElementById('ver-servicios-btn');
+        const backToHomeBtn = document.getElementById('back-to-home-btn');
+        const backToServicesBtn = document.getElementById('back-to-services-btn');
+
+        const servicesListContainer = document.getElementById('services-list');
+        const bookingForm = document.getElementById('booking-form');
+        const sucursalSelect = document.getElementById('sucursal');
+        
+        // Elementos del calendario que ya no se usan, se mantienen ocultos o se pueden eliminar
+        const contenedorCalendario = document.getElementById('contenedor-calendario');
+        const iframeContainer = document.getElementById('iframe-container');
+        const botonHeElegido = document.getElementById('boton-he-elegido'); // Este botón ya no se necesita para el flujo de WhatsApp
+        
+        const botonEnviar = document.getElementById('boton-enviar');
+
+        // Inicialmente el botón de enviar está deshabilitado
+        botonEnviar.disabled = true;
+
+        // Escuchar cambios en el selector de sucursal para habilitar el botón de enviar
+        sucursalSelect.addEventListener('change', () => {
+            // Habilita el botón de enviar una vez que se selecciona una sucursal
+            botonEnviar.disabled = false;
+        });
+
+        // Función para cambiar de página
+        function showPage(pageToShow) {
+            homePage.classList.add('hidden');
+            servicesPage.classList.add('hidden');
+            bookingPage.classList.add('hidden');
+            pageToShow.classList.remove('hidden');
+            window.scrollTo(0, 0); // Vuelve al inicio de la página
+        }
+
+        // --- GENERACIÓN DINÁMICA DE SERVICIOS ---
+        function renderServices() {
+            servicesListContainer.innerHTML = ''; // Limpiar la lista
+            servicesData.forEach(categoryData => {
+                const details = document.createElement('details');
+                details.className = 'bg-black/20 backdrop-blur-sm rounded-lg overflow-hidden';
+
+                const summary = document.createElement('summary');
+                summary.className = 'p-5 font-semibold text-lg flex justify-between items-center';
+                summary.innerHTML = `<span>${categoryData.category}</span><span class="text-2xl font-light transform transition-transform duration-300 details-arrow">+</span>`;
+
+                const servicesContainer = document.createElement('div');
+                servicesContainer.className = 'px-5 pb-5';
+
+                const ul = document.createElement('ul');
+                ul.className = 'divide-y divide-gray-600';
+
+                categoryData.services.forEach(service => {
+                    const li = document.createElement('li');
+                    li.className = 'py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center';
+                    li.innerHTML = `
+                        <div>
+                            <p class="font-medium">${service.name}</p>
+                            <p class="text-sm text-gray-400">${service.price}</p>
+                        </div>
+                        <button class="reservar-btn mt-2 sm:mt-0 px-4 py-2 bg-pink-300 text-white text-sm font-semibold rounded-md hover:bg-pink-400 transition-colors" data-service="${service.name}" data-price="${service.price}">
+                            Reservar
+                        </button>
+                    `;
+                    ul.appendChild(li);
+                });
+
+                servicesContainer.appendChild(ul);
+                details.appendChild(summary);
+                details.appendChild(servicesContainer);
+                servicesListContainer.appendChild(details);
+
+                details.addEventListener('toggle', () => {
+                    const arrow = summary.querySelector('.details-arrow');
+                    if (details.open) {
+                        arrow.style.transform = 'rotate(45deg)';
+                    } else {
+                        arrow.style.transform = 'rotate(0deg)';
+                    }
+                });
+            });
+        }
+
+        // --- NAVEGACIÓN ---
+        verServiciosBtn.addEventListener('click', () => showPage(servicesPage));
+        backToHomeBtn.addEventListener('click', () => showPage(homePage));
+        backToServicesBtn.addEventListener('click', () => {
+            // Resetear el formulario y deshabilitar el botón de enviar al volver a la página de servicios
+            bookingForm.reset();
+            botonEnviar.disabled = true;
+            // Ocultar elementos del calendario si estaban visibles (aunque ya no se usan)
+            contenedorCalendario.classList.add('hidden');
+            iframeContainer.innerHTML = '';
+            botonHeElegido.classList.add('hidden');
+            showPage(servicesPage);
+        });
+
+        // --- LÓGICA DE RESERVA ---
+        servicesListContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('reservar-btn')) {
+                const serviceName = e.target.dataset.service;
+                const servicePrice = e.target.dataset.price;
+
+                document.getElementById('selected-service').textContent = serviceName;
+                document.getElementById('selected-price').textContent = `Precio: ${servicePrice}`;
+                document.getElementById('form-service-name').value = serviceName;
+                document.getElementById('form-service-price').value = servicePrice;
+
+                // Reiniciar el select de sucursal y deshabilitar el botón de enviar
+                sucursalSelect.value = ""; 
+                botonEnviar.disabled = true;
+
+                showPage(bookingPage);
+            }
+        });
+
+        // --- MANEJO DEL ENVÍO DEL FORMULARIO A WHATSAPP ---
+        bookingForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Evita el envío estándar del formulario
+
+            const sucursalSeleccionada = sucursalSelect.value;
+            const whatsappNumber = whatsappNumbers[sucursalSeleccionada];
+
+            if (whatsappNumber) {
+                const nombre = document.getElementById('nombre').value;
+                const email = document.getElementById('email').value;
+                const telefono = document.getElementById('telefono').value;
+                const servicio = document.getElementById('form-service-name').value;
+                const precio = document.getElementById('form-service-price').value;
+
+                // Construir el mensaje para WhatsApp
+                const message = `¡Hola! Me gustaría reservar el servicio de *${servicio}* (Precio: ${precio}). Mis datos son:\n\nNombre: ${nombre}\nEmail: ${email}\nCelular: ${telefono}\nSucursal: ${sucursalSeleccionada}\n\nEspero su confirmación. ¡Muchas gracias!`;
+
+                // Codificar el mensaje para la URL
+                const encodedMessage = encodeURIComponent(message);
+
+                // Construir la URL de WhatsApp
+                const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+                // Redirigir al usuario a WhatsApp
+                window.open(whatsappURL, '_blank');
+
+                // Opcional: Mostrar un mensaje de éxito o redirigir a una página de agradecimiento
+                bookingPage.innerHTML = `
+                    <div class="max-w-lg w-full mx-auto bg-gray-800/50 backdrop-blur-md rounded-xl p-8 shadow-2xl text-center">
+                        <h2 class="text-3xl font-bold mb-4 text-green-400">¡Tu solicitud ha sido enviada!</h2>
+                        <p class="text-lg">Serás redirigido a WhatsApp para finalizar tu reserva con la sucursal de ${sucursalSeleccionada}.</p>
+                        <p class="mt-2 text-gray-300">Si no se abre WhatsApp, haz clic <a href="${whatsappURL}" target="_blank" class="text-blue-400 hover:underline">aquí</a>.</p>
+                        <button onclick="location.reload()" class="mt-8 px-6 py-2 bg-white/90 text-gray-900 font-semibold rounded-lg shadow-md hover:bg-white transition-colors">
+                            Volver al Inicio
+                        </button>
+                    </div>
+                `;
+
+            } else {
+                alert('Por favor, selecciona una sucursal para enviar tu reserva.');
+            }
+        });
+
+        // Renderizar los servicios al cargar la página
+        renderServices();
+    });
+</script>
+</body>
+</html>
