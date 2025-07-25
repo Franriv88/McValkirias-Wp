@@ -37,6 +37,9 @@
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
+
+    <link rel="icon" href="/icon/mcprueba.png" type="image/png">
+
 </head>
 <body class="text-gray-200">
 
@@ -53,7 +56,7 @@
             <div class="bg-black/30 backdrop-blur-sm p-8 md:p-12 rounded-xl">
                 <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold text-white shadow-lg">MC Valquirias</h1>
                 <p class="text-lg md:text-xl lg:text-2xl mt-4 text-gray-300">Realzá tu belleza con manos profesionales.</p>
-                <button id="ver-servicios-btn" class="mt-8 px-8 py-3 bg-white/90 text-gray-900 font-semibold rounded-lg shadow-md hover:bg-pink-400 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-pink-100">
+                <button id="ver-servicios-btn" class="mt-8 px-8 py-3 bg-white/90 text-gray-900 font-semibold rounded-lg shadow-md hover:bg-pink-400 transform hover:scale-105 transition-all duration-300 shadow-lg">
                     Ver Servicios
                 </button>
             </div>
@@ -120,7 +123,7 @@
                         He elegido mi horario
                     </button>
 
-                    <button id="boton-enviar" type="submit" class="w-full text-white bg-pink-300/70 hover:bg-pink-300 focus:ring-4 focus:outline-none focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-colors" disabled>
+                    <button id="boton-enviar" type="submit" class="w-full text-black bg-pink-50 hover:bg-pink-400 focus:ring-4 focus:outline-none focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-colors" disabled>
                         Enviar Reserva por WhatsApp
                     </button>
                 </form>
@@ -213,7 +216,7 @@
         const whatsappNumbers = {
             'Centro': '5491122514305', // Ejemplo: +54 9 11 1234-5678 (Argentina, CABA)
             'Norte': '5491122514305',  // Ejemplo tlf Fran
-            'Sur': '5491122514305',    // Ejemplo tlf Andy Neuquén
+            'Sur': '5492994018011',    // Ejemplo tlf Andy Neuquén
             'Oeste': '5491122514305'   // Ejemplo
         };
 
@@ -351,7 +354,7 @@
                 const precio = document.getElementById('form-service-price').value;
 
                 // Construir el mensaje para WhatsApp
-                const message = `¡Hola! Me gustaría reservar el servicio de *${servicio}* (Precio: ${precio}). Mis datos son:\n\nNombre: ${nombre}\nEmail: ${email}\nCelular: ${telefono}\nSucursal: ${sucursalSeleccionada}\n\nEspero su confirmación. ¡Muchas gracias!`;
+                const message = `¡Hola! Me gustaría reservar el servicio de *${servicio}* (Precio: ${precio}). \n\nMis datos son:\nNombre: ${nombre}\nEmail: ${email}\nCelular: ${telefono}\nSucursal: ${sucursalSeleccionada}\n\nEspero su confirmación. ¡Muchas gracias!`;
 
                 // Codificar el mensaje para la URL
                 const encodedMessage = encodeURIComponent(message);
